@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="rain">
+
+    <!-- weather effects (rain / snow) -->
+    <div class="fx-overlay" id="rainLayer"></div>
+    <div class="fx-overlay" id="snowLayer"></div>
+
+    <div class="AppCard">
+
+        <!-- header -->
+        <div class="title">
+            <h1>Weather App</h1>
+            <p>Check Weather by searching <span>City Name</span></p>
+        </div>
+
+        <!-- search -->
+        <div class="searchArea">
+            <input id="impTXT" type="text" placeholder="Enter city name..." spellcheck="false" autocomplete="off">
+            <button class="loc-btn" id="locBtn" aria-label="Use my location" title="Use my location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+            </button>
+            <button class="searchBtn" id="searchBtn" aria-label="Search weather" title="Search">
+                <img src="img/search.png" alt="search">
+            </button>
+        </div>
+
+        <!-- recent searches -->
+        <div class="recent" id="recentBox"></div>
+
+        <!-- error -->
+        <p class="error" id="errorMsg">City not found. Please try again!</p>
+
+        <!-- loading -->
+        <div class="loading" id="loadingBox">
+            <div class="spinner"></div>
+            <p>Fetching weather...</p>
+        </div>
+
+        <!-- display -->
+        <div class="WeatherDisplay" id="weatherDisplay">
+
+            <div class="topRow">
+                <p class="date" id="dateText"></p>
+                <div class="ctrlBtns">
+                    <button class="unit-toggle" id="unitToggle" title="Switch between °C and °F">°F</button>
+                    <button class="refreshBtn" id="refreshBtn" title="Refresh weather">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 4v6h-6"/>
+                            <path d="M1 20v-6h6"/>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+                            <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <p class="localTime" id="localTime">--:--:--</p>
+
+            <img src="" class="Weather-Icon" alt="weather icon">
+
+            <h1 class="temperature"></h1>
+            <p class="weather-desc"></p>
+            <h2 class="city"></h2>
+
+            <!-- sunrise / sunset -->
+            <div class="sunRow">
+                <div class="sun-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 18a5 5 0 0 0-10 0"/>
+                        <line x1="12" y1="9" x2="12" y2="2"/>
+                        <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/>
+                        <line x1="1" y1="18" x2="3" y2="18"/>
+                        <line x1="21" y1="18" x2="23" y2="18"/>
+                        <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/>
+                        <line x1="23" y1="22" x2="1" y2="22"/>
+                        <polyline points="8 6 12 2 16 6"/>
+                    </svg>
+                    <div>
+                        <p class="sunrise"></p>
+                        <span>Sunrise</span>
+                    </div>
+                </div>
+                <div class="sun-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 18a5 5 0 0 0-10 0"/>
+                        <line x1="12" y1="9" x2="12" y2="14"/>
+                        <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/>
+                        <line x1="1" y1="18" x2="3" y2="18"/>
+                        <line x1="21" y1="18" x2="23" y2="18"/>
+                        <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/>
+                        <line x1="23" y1="22" x2="1" y2="22"/>
+                        <polyline points="8 14 12 18 16 14"/>
+                    </svg>
+                    <div>
+                        <p class="sunset"></p>
+                        <span>Sunset</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- primary details -->
+            <div class="detailsInfo">
+                <div class="column">
+                    <img src="img/humidity.png" alt="humidity">
+                    <div>
+                        <p class="humidity"></p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <img src="img/wind.png" alt="wind">
+                    <div>
+                        <p class="wind"></p>
+                        <p>Wind</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- extra details -->
+            <div class="extraInfo">
+                <div class="info-item">
+                    <p class="feels"></p>
+                    <span>Feels Like</span>
+                </div>
+                <div class="info-item">
+                    <p class="pressure"></p>
+                    <span>Pressure</span>
+                </div>
+                <div class="info-item">
+                    <p class="visibility"></p>
+                    <span>Visibility</span>
+                </div>
+            </div>
+
+            <!-- 5-day forecast -->
+            <div class="forecast">
+                <h3>5-Day Forecast <span class="hint">click a day for hourly detail</span></h3>
+                <div class="forecast-grid" id="forecastGrid"></div>
+            </div>
+
+            <!-- tip -->
+            <p class="tip" id="weatherTip"></p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
